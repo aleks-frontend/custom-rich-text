@@ -7,7 +7,47 @@
 </head>
 
 <body>
+    <div class="js-customRichText-src">{btestb}{nl} {iitalic texti} {h1heading oneh1} {h2heading twoh2}</div>
+    <div class="js-customRichText-target"></div>
 
+    <script>
+        // mapObj object is passed as an argument, so it would be possible to add this to snippets
+        // and create some conventions and rules for these marks and add new ones
+        const mapObj = {
+            '{b': '<strong>',
+            'b}': '</strong>',
+            '{i': '<i>',
+            'i}': '</i>',
+            '{h1': '<h1>',
+            'h1}': '</h1>',
+            '{h2': '<h2>',
+            'h2}': '</h2>',
+            '{nl}': '<br>'
+        };
+
+        function customRichText(mapObj) {
+            const sources = document.querySelectorAll('.js-customRichText-src');
+            const targets = document.querySelectorAll('.js-customRichText-target');
+
+            sources.forEach((source, index) => {
+                // Hiding all the source elements
+                source.style.display = 'none';
+                let formated = source.innerText;
+
+                // Creating a regular expression with all the keys from the mapObj
+                const regexp = new RegExp(Object.keys(mapObj).join('|'), 'gi');
+
+                // Running a replace method and providing the created regExp 
+                // and adding a function as a second argument
+                formated = formated.replace(regexp, (matched) => mapObj[matched]);
+
+                // Setting target's innerHTML to formated string that we created
+                targets[index].innerHTML = formated;
+            })
+        };
+
+        customRichText(mapObj)
+    </script>
 </body>
 
 </html>
